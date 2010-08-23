@@ -10,7 +10,11 @@ class Knob {
   public:
     void setup(int pinA, int pinB);
 
-    void read();
+    /**
+     * Read new state from pins.
+     * @return 0 if no change, -1 if prev, +1 if next
+     */
+    int read();
     
     int pinA;
     int pinB;

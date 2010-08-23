@@ -32,12 +32,15 @@ void Knob::setup(int pinA, int pinB) {
   this->cycleCount = 0;
 }
 
-void Knob::read() {
-  byte a = digitalRead(this->pinA);
-  byte b = digitalRead(this->pinB);
+int Knob::read() {
+  int direction = 0;
+
+  const byte a = digitalRead(this->pinA);
+  const byte b = digitalRead(this->pinB);
   this->state = (a << 1 | b);
   
   if (state != prevState) {
+
 	if(state == cw[prevState]) {
 	  // going forward
 	  cycleCount++;
@@ -47,26 +50,24 @@ void Knob::read() {
 	  cycleCount--;
 	}
 	
+
 	if(state == 3) {
+
 	  if(cycleCount > 0) {
 		count++;
-		Serial.print(count);
-		Serial.println(" PLUS");
+		direction = 1;
 	  }
 	  else if(cycleCount < 0) {
 		count--;
-		Serial.print(count);
-		Serial.println(" MINUS");
-	  }
-	  else {
-//        Serial.print(count);
-//        Serial.println(" UNKNOWN");
+		direction = -1;
 	  }
 	  cycleCount = 0;
 	}
 	
 	prevState = state;
-  }
-}
 
+  }
+
+  return direction;
+}
 
