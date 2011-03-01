@@ -16,3 +16,45 @@ Then: run read() from within the loop() to get the result.
 -1 means "left", 0 "no change" and 1 "right" 
 (or the other way around if you reverse the wiring).
 
+
+Example
+
+#include <Knob.h>
+#include <Toggle.h>
+
+// the first pin used (number up from here)
+#define PIN_OFFSET 22
+
+// the number of knobs
+#define NUMKNOBS 6
+
+Knob knobs[NUMKNOBS];
+
+void setup()
+{
+  // init hardware
+  for(int i = 0; i < NUMKNOBS; i++) {
+    knobs[i].setup(PIN_OFFSET + 2*i, PIN_OFFSET + 2*i + 1);
+    
+    // abuse output pins for gnd
+    pinMode(i+2, OUTPUT);
+    digitalWrite(i+2, LOW);
+  }
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  for(int i = 0; i < NUMKNOBS; i++) {
+    int dir = knobs[i].read();
+    if(dir) {
+      if(dir > 0) {
+        Serial.println("right");
+      }
+      else {
+        Serial.println("left");
+      }
+    }
+  }
+}
+
