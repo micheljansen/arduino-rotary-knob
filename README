@@ -1,0 +1,18 @@
+Arduino library that models an incremental rotary encoder knob.
+
+The current implementation models a 12-step quadrature encoder
+that outputs 2-bit gray code, like the 318-ENC130175F-12PS 
+(Ref.#: TW-700198) sold by SparkFun Electronics.
+
+Usage
+Place the directory with Knob.h and Knob.cpp inside the "libraries"
+directory of your Arduino sketchbook.
+
+To add it to your skech, go to Sketch > Import Library.
+
+Using the library in your program is easy: 
+call setup(pinA, pinB) in the setup() method of your Arduino sketch. 
+Then: run read() from within the loop() to get the result.
+-1 means "left", 0 "no change" and 1 "right" 
+(or the other way around if you reverse the wiring).
+
